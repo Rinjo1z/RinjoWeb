@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const reviewRoutes = require('./routes/review.routes');
+const userRoutes = require('./routes/user.routes');
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ console.log('Connecting to MongoDB...');
 const PORT = process.env.PORT || 3000;
 
 app.use('/rinjo', reviewRoutes);
+app.use('/rinjo', userRoutes);
 
 async function start() {
     try {
