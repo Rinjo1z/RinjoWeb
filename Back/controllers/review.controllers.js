@@ -19,4 +19,17 @@ const getReviews = async (req, res) => {
     }
 }
 
-module.exports = { createReview, getReviews };
+const deleteReview = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedReview = await Review.findByIdAndDelete(id);
+        if (!deletedReview) {
+            return res.status(404).json({ ok: false, message: 'No se encontro la reseña' });
+        }
+        return res.status(200).json({ 'reseña eliminada': deletedReview });
+    } catch (error) {
+        return res.status(500).json({ ok: false, message: error.message });
+    }
+};
+
+module.exports = { createReview, getReviews, deleteReview };
