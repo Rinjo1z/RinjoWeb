@@ -1,7 +1,5 @@
-const router = require('express').Router();
-const { newUser, updateUser, getUser } = require('../controllers/user.controller');
-
 const express = require('express');
+const router = express.Router();
 
 // Importamos el Controlador
 const authController = require('../controllers/authController');
@@ -21,9 +19,5 @@ router.get('/perfil', verificarToken, authController.obtenerPerfil);
 
 // Otro ejemplo:
 // router.put('/editar', verificarToken, authController.editarUsuario);
-
-router.post('/user', newUser);
-router.get('/user', getUser);
-router.put('/user/:id', updateUser);
 
 module.exports = router;

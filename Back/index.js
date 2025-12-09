@@ -4,6 +4,11 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const reviewRoutes = require('./routes/review.routes');
 const userRoutes = require('./routes/user.routes');
+const middleware = require('./routes/middleware')
+const authRoutes = require('./routes/authRoutes');
+const path = require('path');
+
+
 
 dotenv.config();
 
@@ -18,6 +23,9 @@ const PORT = process.env.PORT || 3000;
 
 app.use('/rinjo', reviewRoutes);
 app.use('/rinjo', userRoutes);
+app.use('/rinjo', middleware);
+app.use('/rinjo', authRoutes);
+app.use(express.static(path.join(__dirname, '../Front')));
 
 async function start() {
     try {

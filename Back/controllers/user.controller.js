@@ -12,13 +12,22 @@ const getUser = async (req, res) => {
 
 const newUser = async (req, res) => {
     try {
-        const userData = req.body;
-        const user = new User(userData);
-        const savedUser = await user.save();
-        return res.status(201).json({ ok: true, data: savedUser });
-    } catch (error) {
-        return res.status(500).json({ ok: false, message: 'Error creando al usuario', error: error.message });
+    const { name, email, password } = req.body;
+
+    // Verificar si ya existe
+    const existe = await User.findOne({ email });
+    if (existe) {
+      return res.status(400).json({ mensaje: 'El usuario ya existe' });
     }
+
+    // Guardar directamente la contraseña en texto plano (⚠️ inseguro)
+    const nuevoUsuario = new User({ name, email, password });
+    await nuevoUsuario.save();
+
+    res.status(201).json({ mensaje: 'Usuario registrado exitosamente', usuario: nuevoUsuario });
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al registrar usuario', error: error.message });
+  }
 };
 
 const updateUser = async (req, res) => {
