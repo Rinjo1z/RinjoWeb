@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const { newUser, updateUser, getUser } = require('../controllers/user.controller');
-
-const express = require('express');
+const { allowRoles } = require('../middleware/roles');
 
 // Importamos el Controlador
 const authController = require('../controllers/authController');
@@ -18,6 +17,8 @@ router.post('/login', authController.login);
 // Estructura: router.get('RUTA', MIDDLEWARE, CONTROLADOR)
 
 router.get('/perfil', verificarToken, authController.obtenerPerfil);
+
+// Ruta solo para administradores
 
 // Otro ejemplo:
 // router.put('/editar', verificarToken, authController.editarUsuario);
