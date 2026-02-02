@@ -1,43 +1,44 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/user')
+const { login: loginService, register: registerService, obtenerPerfil: obtenerPerfilService } = require('../services/auth.service');
 
-// 1. LOGIN: Crea el token
 const login = async (req, res) => {
-    const { email, password } = req.body;
-    // ... Validar usuario y contraseña con BD ...
-    const usuarioEncontrado = await User.findOne({ email, password });
-    if (!usuarioEncontrado) {
-        return res.status(401).json({ mensaje: 'Credenciales inválidas' });
+    try {
+        const { email, password } = req.body;
+        const resultado = await loginService(email, password);
+        res.json(resultado);
+    } catch (error) {
+        if (error.message === 'Credenciales inválidas') {
+            return res.status(401).json({ mensaje: error.message });
+        }
+        res.status(500).json({ mensaje: 'Error al iniciar sesión', error: error.message });
     }
-
-    const token = jwt.sign(
-        { id: usuarioEncontrado.id, email: usuarioEncontrado.email }, 
-        process.env.JWT_SECRET, 
-        { expiresIn: '1h' }
-    );
-
-    res.json({ mensaje: 'Login exitoso', token: token });
 };
 
-// 2. PERFIL: Usa los datos del token
-// Nota: Esta función asume que el "Cadenero" ya hizo su trabajo
+const register = async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+        // Default name if not provided (since register form might only have email/password based on previous context)
+        const userName = name || email.split('@')[0];
+
+        const resultado = await registerService(userName, email, password);
+        res.status(201).json(resultado);
+    } catch (error) {
+        if (error.message === 'El usuario ya existe') {
+            return res.status(400).json({ mensaje: error.message });
+        }
+        res.status(500).json({ mensaje: 'Error al registrar usuario', error: error.message });
+    }
+};
+
 const obtenerPerfil = async (req, res) => {
     try {
-        // req.user existe gracias al middleware 'verificarToken'
-        console.log("Usuario desde el token:", req.user);
-
-        // Aquí podrías buscar detalles extra en la BD usando req.user.id
-        const perfilUsuario = {
-            id: req.user.id,
-            email: req.user.email,
-            nivel: 'Estudiante Experto',
-            cursos: ['NodeJS', 'React']
-        };
-
+        const perfilUsuario = await obtenerPerfilService(req.user);
         res.json(perfilUsuario);
     } catch (error) {
-        res.status(500).json({ mensaje: 'Error al obtener perfil' });
+        if (error.message === 'Usuario no encontrado') {
+            return res.status(404).json({ mensaje: error.message });
+        }
+        res.status(500).json({ mensaje: 'Error al obtener perfil', error: error.message });
     }
 };
 
-module.exports = { login, obtenerPerfil };
+module.exports = { login, register, obtenerPerfil };

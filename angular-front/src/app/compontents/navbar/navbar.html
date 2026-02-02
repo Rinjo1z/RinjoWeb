@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/">RINJO</a>
+        <img src="/logo.png" class="img-fluid me-2" alt="Logo RINJO" style="max-height: 40px;">
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" routerLink="/home" routerLinkActive="active">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/products" routerLinkActive="active">Productos</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" routerLink="/contact" routerLinkActive="active">Contactanos</a>
+                </li>
+                <li class="nav-item" *ngIf="!isLoggedIn()"><a class="nav-link" routerLink="/login"
+                        routerLinkActive="active">Inicia Sesión</a>
+                </li>
+                <li class="nav-item dropdown" *ngIf="isLoggedIn()">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        (click)="toggleDropdown(); $event.preventDefault()" [class.show]="isDropdownOpen"
+                        aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                            <path fill-rule="evenodd"
+                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                        </svg>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" [class.show]="isDropdownOpen"
+                        aria-labelledby="navbarDropdown">
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item" routerLink="/cart" routerLinkActive="active">
+                                Carrito 🛒
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" routerLink="/admin" routerLinkActive="active">
+                                Modo Administrador
+                            </a>
+                        </li>
+                        <li><a class="dropdown-item" (click)="logout()">Cerrar Sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

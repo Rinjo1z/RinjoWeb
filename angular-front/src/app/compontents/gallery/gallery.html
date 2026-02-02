@@ -1,0 +1,61 @@
+<h2 class="text-center text-white">NUESTROS PRODUCTOS</h2>
+<div class="text-center my-4">
+    <button class="btn btn-outline-light mx-2" (click)="filter('todos')">Todos</button>
+    <button class="btn btn-outline-light mx-2" (click)="filter('Oversize')">Oversize</button>
+    <button class="btn btn-outline-light mx-2" (click)="filter('Hoodies')">Hoodies</button>
+    <button class="btn btn-outline-light mx-2" (click)="filter('Normales')">Normales</button>
+</div>
+
+<div class="row">
+    <div class="col-12 col-md-4" *ngFor="let item of   filteredItems">
+        <img [src]="item.img ? item.img : 'assets/default-product.svg'" class="img-fluid rounded cursor-pointer"
+            (click)="openModal(item)">
+        <p class="fw-bold fs-5 text-center">{{ item.title }}</p>
+    </div>
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content bg-dark text-white rounded-4 border-secondary shadow-lg">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold fs-3" id="imageModalLabel">{{ selectedItem?.title }}</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row g-4">
+                    <div class="col-md-6 text-center">
+                        <img [src]="selectedItem?.img" class="img-fluid rounded-3 shadow"
+                            alt="{{ selectedItem?.title }}">
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="text-success fw-bold mb-3">{{ selectedItem?.price | number }} COP</h4>
+                        <p class="text-secondary mb-4">{{ selectedItem?.description }}</p>
+
+                        <div class="mb-3" *ngIf="selectedItem?.sizes?.length > 0">
+                            <label class="form-label small text-uppercase fw-bold text-light">Talla</label>
+                            <select [(ngModel)]="selectedSize" class="form-select bg-dark text-white border-secondary">
+                                <option value="" disabled selected>Selecciona una talla</option>
+                                <option *ngFor="let size of selectedItem?.sizes" [value]="size">{{ size }}</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4" *ngIf="selectedItem?.colors?.length > 0">
+                            <label class="form-label small text-uppercase fw-bold text-light">Color</label>
+                            <select [(ngModel)]="selectedColor" class="form-select bg-dark text-white border-secondary">
+                                <option value="" disabled selected>Selecciona un color</option>
+                                <option *ngFor="let color of selectedItem?.colors" [value]="color">{{ color }}</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow"
+                            [disabled]="(selectedItem?.sizes?.length > 0 && !selectedSize) || (selectedItem?.colors?.length > 0 && !selectedColor)"
+                            (click)="addToCart(selectedItem)">
+                            METER AL CARRITO 🛒
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

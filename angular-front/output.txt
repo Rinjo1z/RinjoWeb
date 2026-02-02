@@ -1,0 +1,7 @@
+src/app/compontents/gallery/gallery.ts(1,35): error TS2792: Cannot find module '@angular/core'. Did you mean to set the 'moduleResolution' option to 'nodenext', or to add aliases to the 'paths' option?
+src/app/compontents/gallery/gallery.ts(2,30): error TS2792: Cannot find module '@angular/common'. Did you mean to set the 'moduleResolution' option to 'nodenext', or to add aliases to the 'paths' option?
+src/app/services/cart/cart.ts(1,28): error TS2792: Cannot find module '@angular/core'. Did you mean to set the 'moduleResolution' option to 'nodenext', or to add aliases to the 'paths' option?
+src/app/services/product/product.ts(1,28): error TS2792: Cannot find module '@angular/core'. Did you mean to set the 'moduleResolution' option to 'nodenext', or to add aliases to the 'paths' option?
+src/app/services/product/product.ts(2,28): error TS2792: Cannot find module '@angular/common/http'. Did you mean to set the 'moduleResolution' option to 'nodenext', or to add aliases to the 'paths' option?
+src/app/services/product/product.ts(3,37): error TS2792: Cannot find module 'rxjs'. Did you mean to set the 'moduleResolution' option to 'nodenext', or to add aliases to the 'paths' option?
+src/app/services/product/product.ts(4,21): error TS2792: Cannot find module 'rxjs/operators'. Did you mean to set the 'moduleResolution' option to 'nodenext', or to add aliases to the 'paths' option?

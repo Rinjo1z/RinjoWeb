@@ -4,9 +4,10 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const reviewRoutes = require('./routes/review.routes');
 const userRoutes = require('./routes/user.routes');
-const middleware = require('./routes/middleware')
 const authRoutes = require('./routes/authRoutes');
 const path = require('path');
+const productRoutes = require('./routes/product.routes');
+
 
 
 
@@ -23,21 +24,23 @@ const PORT = process.env.PORT || 3000;
 
 app.use('/rinjo', reviewRoutes);
 app.use('/rinjo', userRoutes);
-app.use('/rinjo', middleware);
 app.use('/rinjo', authRoutes);
+app.use('/rinjo', productRoutes);
 app.use(express.static(path.join(__dirname, '../Front')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 async function start() {
     try {
         await mongoose.connect(process.env.MONGODB_URI);
         console.log('Connected to MongoDB');
         app.listen(PORT, () => {
-            console.log(`API LISTA en http://localhost:${PORT}`);});
-    }catch(err) {
+            console.log(`API LISTA en http://localhost:${PORT}`);
+        });
+    } catch (err) {
         console.error('Error connecting to MongoDB:', err);
         process.exit(1);
-        }
     }
+}
 
 start();
 

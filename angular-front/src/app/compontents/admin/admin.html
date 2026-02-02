@@ -1,0 +1,77 @@
+<h1 class="text-center mt-5 fw-bold text-white"> Crear Producto</h1>
+<!-- Botón para abrir modal -->
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearProductoModal">
+  Crear producto
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="crearProductoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form (ngSubmit)="crearProducto()">
+        <div class="modal-header">
+          <h5 class="modal-title">Nuevo Producto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" [(ngModel)]="producto.name" name="name" placeholder="Nombre" class="form-control mb-2" required>
+          <input type="number" [(ngModel)]="producto.price" name="price" placeholder="Precio" class="form-control mb-2" required>
+          <input type="text" [(ngModel)]="producto.size" name="size" placeholder="Talla" class="form-control mb-2" required>
+          <input type="text" [(ngModel)]="producto.color" name="color" placeholder="Color" class="form-control mb-2" required>
+          <input type="text" [(ngModel)]="producto.category" name="category" placeholder="Categoría" class="form-control mb-2" required>
+          <input type="number" [(ngModel)]="producto.stock" name="stock" placeholder="Stock" class="form-control mb-2" required>
+          <textarea [(ngModel)]="producto.description" name="description" placeholder="Descripción" class="form-control mb-2" required></textarea>
+          
+          <!-- Input para subir imagen -->
+          <input type="file" (change)="onFileSelected($event)" class="form-control mb-2" required>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<hr class="my-4">
+<h3 class="text-white">Productos existentes</h3>
+<div class="row mt-3">
+  <div class="col-12 col-md-4 mb-3" *ngFor="let p of products">
+    <div class="card bg-dark text-white">
+      <img [src]="p.img ? p.img : 'assets/default-product.svg'" class="card-img-top img-fluid" alt="">
+      <div class="card-body">
+        <h5 class="card-title">{{ p.title }}</h5>
+        <p class="card-text">{{ p.description }}</p>
+        <button class="btn btn-primary me-2" (click)="openEdit(p)">Editar</button>
+        <button class="btn btn-danger" (click)="deleteProduct(p._id)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit modal -->
+<div class="modal fade" id="editarProductoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form (ngSubmit)="updateProducto()">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar Producto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" [(ngModel)]="editProducto.title" name="title" placeholder="Nombre" class="form-control mb-2" required>
+          <input type="number" [(ngModel)]="editProducto.price" name="price" placeholder="Precio" class="form-control mb-2" required>
+          <input type="text" [(ngModel)]="editProducto.size" name="size" placeholder="Talla" class="form-control mb-2" required>
+          <input type="text" [(ngModel)]="editProducto.color" name="color" placeholder="Color" class="form-control mb-2" required>
+          <input type="text" [(ngModel)]="editProducto.category" name="category" placeholder="Categoría" class="form-control mb-2" required>
+          <input type="number" [(ngModel)]="editProducto.stock" name="stock" placeholder="Stock" class="form-control mb-2" required>
+          <textarea [(ngModel)]="editProducto.description" name="description" placeholder="Descripción" class="form-control mb-2" required></textarea>
+          <input type="file" (change)="onFileSelectedEdit($event)" class="form-control mb-2">
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
