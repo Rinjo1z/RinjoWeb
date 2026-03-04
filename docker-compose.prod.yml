@@ -21,7 +21,7 @@ services:
   # SERVICIO 2: Backend Express.js
   # =============================================
   backend:
-    build: ./backend
+    build: ./Back
     container_name: backend
     restart: always
     ports:
