@@ -17,11 +17,12 @@ const app = express();
 
 app.use(cors({
     origin: [
-        'http://tu-bucket.s3-website-us-east-1.amazonaws.com',  // URL de tu S3
-        'http://localhost:4200'  // Para desarrollo local
+        process.env.FRONTEND_URL || 'http://localhost:4200',
+        'http://tu-bucket.s3-website-us-east-1.amazonaws.com' // Mantengo este por si acaso ya lo estás usando
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
+
 }));
 app.use(express.json());
 

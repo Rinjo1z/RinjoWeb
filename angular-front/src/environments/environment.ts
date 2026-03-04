@@ -1,4 +1,4 @@
 export const environment = {
-    production: false,
-    apiUrl: 'http://localhost:3000/rinjo'
+    production: true,
+    apiUrl: 'http://100.24.196.236:3000/rinjo' // CAMBIAR POR TU URL REAL DE AWS
 };

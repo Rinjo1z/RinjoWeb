@@ -2,18 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Product {
-  private apiUrl = 'http://localhost:3000/rinjo/products';
+  private apiUrl = `${environment.apiUrl}/products`;
   private refreshProducts$ = new Subject<void>();
   public refresh$ = this.refreshProducts$.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable <any> {
+  getProducts(): Observable<any> {
     return this.http.get<any>(this.apiUrl);
   }
 
@@ -34,5 +35,5 @@ export class Product {
       tap(() => this.refreshProducts$.next())
     );
   }
-  
+
 }
