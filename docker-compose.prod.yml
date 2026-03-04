@@ -1,0 +1,53 @@
+services:
+  # =============================================
+  # SERVICIO 1: Base de Datos MongoDB
+  # =============================================
+  mongo-db:
+    image: mongo:latest
+    container_name: mongo-db
+    restart: always
+    # NO exponemos el puerto 27017 al exterior.
+    # Solo el backend puede acceder a MongoDB
+    # a traves de la red interna de Docker.
+    volumes:
+      - mongo-data:/data/db    # Persistencia de datos
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: UnToque2025Seguro!   # Cambiar por una contrasena fuerte
+    networks:
+      - app-network
+
+  # =============================================
+  # SERVICIO 2: Backend Express.js
+  # =============================================
+  backend:
+    build: ./backend
+    container_name: backend
+    restart: always
+    ports:
+      - "3000:3000"    # Este SI se expone al mundo
+    depends_on:
+      - mongo-db
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      MONGODB_URI: mongodb://admin:UnToque2025Seguro!@mongo-db:27017/mi_db?authSource=admin
+      JWT_SECRET: una-clave-secreta-muy-larga-y-aleatoria-cambiar-esto
+      JWT_EXPIRES_IN: 3h
+    networks:
+      - app-network
+
+# =============================================
+# RED INTERNA: Los contenedores se comunican
+# entre si sin exponer puertos al mundo.
+# =============================================
+networks:
+  app-network:
+    driver: bridge
+
+# =============================================
+# VOLUMEN: Guarda los datos de MongoDB en disco
+# para que no se pierdan al reiniciar.
+# =============================================
+volumes:
+  mongo-data:

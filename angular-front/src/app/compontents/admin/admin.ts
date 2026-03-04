@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ProductService } from '../../services/product/product';
+import { Product } from '../../services/product/product';
 
 @Component({
   selector: 'app-admin',
@@ -14,15 +14,15 @@ export class Admin implements OnInit {
   selectedFile: File | null = null;
   products: any[] = [];
 
-  constructor(private productService: ProductService) { }
+  constructor(private product: Product) { }
 
   ngOnInit() {
     this.loadProducts();
-    this.productService.refresh$.subscribe(() => this.loadProducts());
+    this.product.refresh$.subscribe(() => this.loadProducts());
   }
 
   loadProducts() {
-    this.productService.getProducts().subscribe({
+    this.product.getProducts().subscribe({
       next: (data) => this.products = data,
       error: (err) => console.error('Error cargando productos:', err)
     });
@@ -45,7 +45,7 @@ export class Admin implements OnInit {
       formData.append('img', this.selectedFile);
     }
 
-    this.productService.createProduct(formData).subscribe({
+    this.product.createProduct(formData).subscribe({
       next: (res) => {
         console.log('Producto creado:', res);
         // reset form
@@ -65,7 +65,7 @@ export class Admin implements OnInit {
 
   deleteProduct(id: string) {
     if (!confirm('¿Eliminar este producto?')) return;
-    this.productService.deleteProduct(id).subscribe({
+    this.product.deleteProduct(id).subscribe({
       next: () => console.log('Producto eliminado'),
       error: (err) => console.error('Error eliminando producto:', err)
     });
@@ -102,7 +102,7 @@ export class Admin implements OnInit {
     formData.append('description', this.editProducto.description);
     if (this.selectedFileEdit) formData.append('img', this.selectedFileEdit);
 
-    this.productService.updateProduct(this.editProducto._id, formData).subscribe({
+    this.product.updateProduct(this.editProducto._id, formData).subscribe({
       next: (res) => {
         console.log('Producto actualizado:', res);
         this.editProducto = null;

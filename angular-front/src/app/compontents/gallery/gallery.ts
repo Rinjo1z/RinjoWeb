@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ProductService } from '../../services/product/product';
+import { Product } from '../../services/product/product';
 import { CartService } from '../../services/cart/cart';
 import { Router } from '@angular/router';
 declare var bootstrap: any;
@@ -22,13 +22,13 @@ export class Gallery implements OnInit {
   selectedColor: string = "";
 
   constructor(
-    private productService: ProductService,
+    private product: Product,
     private cartService: CartService,
     private router: Router
   ) { }
 
   ngOnInit() {
-    this.productService.getProducts().subscribe(
+    this.product.getProducts().subscribe(
       (data: any) => {
         this.item = data.map((p: any) => ({
           ...p,
